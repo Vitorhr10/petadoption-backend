@@ -1,4 +1,5 @@
-import express, { request } from 'express';
+import express from 'express';
+import { Knex } from 'knex';
 import knex from './database/connection';
 
 const routes = express.Router();
@@ -6,11 +7,11 @@ const routes = express.Router();
 routes.get('/categories', async (request, response) => {
   const categories = await knex('categories').select('*');
 
-  const serializedCategories = categories.map(categorie => {
+  const serializedCategories = categories.map(category => {
     return {
-      id: categorie.id,
-      title: categorie.title,
-      image_url: `http://localhost:3333/uploads/${categorie.image}`,
+      id: category.id,
+      title: category.title,
+      image_url: `http://localhost:3333/uploads/${category.image}`,
     };
   })
 
@@ -28,10 +29,12 @@ routes.post('/pets', async (request, response) => {
     city,
     uf,
     additionalInfo,
-    categorie
+    category
   } = request.body;
 
-  const ids = await knex('pets').insert({
+  const trx = await knex.transaction();
+
+  const insertedIds = await trx('pets').insert({
     image: 'image-fake',
     name,
     email,
@@ -44,14 +47,16 @@ routes.post('/pets', async (request, response) => {
     additionalInfo,
   });
 
-  const petsCategorie = categorie.map((categorie_id: number) => {
+  const pet_id = insertedIds[0];
+
+  const petsCategory = category.map((category_id: number) => {
     return {
-      categorie_id,
-      pet_id: ids[0],
+      category_id,
+      pet_id
     }
   })
 
-  await knex('pets_categorie').insert(petsCategorie);
+  await trx('pets_category').insert(petsCategory);
 
   return response.json({message:"true"});
 })

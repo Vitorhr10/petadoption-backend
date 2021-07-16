@@ -1,7 +1,7 @@
 import { Knex } from 'knex';
 
 export async function up(knex: Knex) {
-  return knex.schema.createTable('pets_categorie', table => {
+  return knex.schema.createTable('pets_category', table => {
     table.increments('id').primary();
 
     table.integer('pet_id')
@@ -9,7 +9,7 @@ export async function up(knex: Knex) {
       .references('id')
       .inTable('pets');
 
-    table.integer('categorie_id')
+    table.integer('category_id')
       .notNullable()
       .references('id')
       .inTable('categories');
@@ -17,5 +17,5 @@ export async function up(knex: Knex) {
 }
 
 export async function down(knex: Knex) {
-  return knex.schema.dropTable('pets_categorie');
+  return knex.schema.dropTable('pets_category');
 }
