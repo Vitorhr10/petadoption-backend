@@ -55,6 +55,8 @@ class PetsController {
     })
   
     await trx('pets_category').insert(petsCategory);
+
+    await trx.commit();
   
     return response.json({
       id: pet_id,
