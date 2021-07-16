@@ -10,5 +10,6 @@ const categoriesController = new CategoriesController();
 routes.get('/categories', categoriesController.index);
 
 routes.post('/pets', petsController.create);
+routes.get('/pets/:id', petsController.show);
 
 export default routes;

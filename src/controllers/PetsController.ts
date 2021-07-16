@@ -2,6 +2,18 @@ import { Request, Response } from "express";
 import knex from '../database/connection';
 
 class PetsController {
+  async show (request: Request, response: Response) {
+    const { id } = request.params;
+
+    const pet = await knex('pets').where('id', id).first();
+
+    if (!pet) {
+      return response.status(404).json({ message: 'Pet not found.' });
+    }
+
+    return response.json(pet);
+  }
+
   async create (request: Request, response: Response) {
     const {
       name,
