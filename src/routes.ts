@@ -2,7 +2,10 @@ import express from 'express';
 import { Knex } from 'knex';
 import knex from './database/connection';
 
+import PetsController from './controllers/PetsController';
+
 const routes = express.Router();
+const petsController = new PetsController();
 
 routes.get('/categories', async (request, response) => {
   const categories = await knex('categories').select('*');
@@ -18,47 +21,6 @@ routes.get('/categories', async (request, response) => {
   return response.json(serializedCategories);
 });
 
-routes.post('/pets', async (request, response) => {
-  const {
-    name,
-    email,
-    cellphone,
-    gender,
-    latitude,
-    longitude,
-    city,
-    uf,
-    additionalInfo,
-    category
-  } = request.body;
-
-  const trx = await knex.transaction();
-
-  const insertedIds = await trx('pets').insert({
-    image: 'image-fake',
-    name,
-    email,
-    cellphone,
-    gender,
-    latitude,
-    longitude,
-    city,
-    uf,
-    additionalInfo,
-  });
-
-  const pet_id = insertedIds[0];
-
-  const petsCategory = category.map((category_id: number) => {
-    return {
-      category_id,
-      pet_id
-    }
-  })
-
-  await trx('pets_category').insert(petsCategory);
-
-  return response.json({message:"true"});
-})
+routes.post('/pets', petsController.create);
 
 export default routes;
