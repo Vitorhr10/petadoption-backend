@@ -1,5 +1,5 @@
-import knex from '../database/connection';
 import { Request, Response } from "express";
+import knex from '../database/connection';
 
 class PetsController {
   async create (request: Request, response: Response) {
