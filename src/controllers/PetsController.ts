@@ -11,7 +11,12 @@ class PetsController {
       return response.status(404).json({ message: 'Pet not found.' });
     }
 
-    return response.json(pet);
+    const categories = await knex('categories')
+      .join('pets_category', 'categories.id', '=', 'pets_category.category_id')
+      .where('pets_category.pet_id', id)
+      .select('categories.title');
+
+    return response.json({ pet, categories });
   }
 
   async create (request: Request, response: Response) {
