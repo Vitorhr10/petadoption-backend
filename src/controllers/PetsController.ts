@@ -2,6 +2,20 @@ import { Request, Response } from "express";
 import knex from '../database/connection';
 
 class PetsController {
+  async index(request: Request, response: Response) {
+    const { city, uf, categories } = request.query;
+
+    const pets = await knex('pets')
+      .join('pets_category', 'pets.id', '=', 'pets_category.pet_id')
+      .where('pets_category.category_id', Number(categories))
+      .where('city', String(city))
+      .where('uf', String(uf))
+      .distinct()
+      .select('pets.*');
+
+    return response.json(pets);
+  }
+
   async show (request: Request, response: Response) {
     const { id } = request.params;
 
