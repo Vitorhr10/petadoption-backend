@@ -50,7 +50,7 @@ class PetsController {
     const trx = await knex.transaction();
 
     const pet = {
-      image: 'image-fake',
+      image: 'https://images.unsplash.com/photo-1554456854-55a089fd4cb2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60',
       name,
       email,
       cellphone,
