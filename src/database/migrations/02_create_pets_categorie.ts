@@ -1,21 +1,13 @@
-import { Knex } from 'knex';
+import Knex from 'knex'
 
 export async function up(knex: Knex) {
-  return knex.schema.createTable('pets_category', table => {
-    table.increments('id').primary();
-
-    table.integer('pet_id')
-      .notNullable()
-      .references('id')
-      .inTable('pets');
-
-    table.integer('category_id')
-      .notNullable()
-      .references('id')
-      .inTable('categories');
+  return knex.schema.createTable('petpoints_category', table => {
+    table.increments('id').primary()
+    table.integer('petpoints_id').notNullable().references('id').inTable('petpoints')
+    table.integer('category_id').notNullable().references('id').inTable('category')
   })
 }
 
 export async function down(knex: Knex) {
-  return knex.schema.dropTable('pets_category');
+  return knex.schema.dropTable('petpoints_category')
 }

@@ -1,16 +1,21 @@
-import express from 'express';
+import express from 'express'
 
-import PetsController from './controllers/PetsController';
-import CategoriesController from './controllers/CategoriesController';
+import multer from 'multer'
+import multerConfig from './config/multer'
 
-const routes = express.Router();
-const petsController = new PetsController();
-const categoriesController = new CategoriesController();
+import PetpointsController from './controllers/PetpointsController'
+import CategoryController from './controllers/CategoryController'
 
-routes.get('/categories', categoriesController.index);
+const routes = express.Router()
+const upload = multer(multerConfig)
 
-routes.post('/pets', petsController.create);
-routes.get('/pets', petsController.index);
-routes.get('/pets/:id', petsController.show);
+const petpointsController = new PetpointsController()
+const categoryController = new CategoryController()
 
-export default routes;
+routes.get('/category', categoryController.index)
+
+routes.post('/petpoints', upload.single('image'), petpointsController.create)
+routes.get('/petpoints', petpointsController.index)
+routes.get('/petpoints/:id', petpointsController.show)
+
+export default routes
