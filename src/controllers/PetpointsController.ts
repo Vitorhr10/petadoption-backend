@@ -110,4 +110,4 @@ class PetpointsController {
   }
 }
 
-export default PetpointsController;
+export default PetpointsController
