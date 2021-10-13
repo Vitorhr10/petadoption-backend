@@ -26,7 +26,7 @@ class PetpointsController {
     const serializedPetPoints = petpoints2.map(petpoint => {
       return {
         ...petpoint,
-        image_url: `http://192.168.0.102:3333/uploads/${petpoint.image}`
+        image_url: `http://192.168.0.2:3333/uploads/${petpoint.image}`
       }
     })
 
@@ -44,7 +44,7 @@ class PetpointsController {
 
     const serializedPetPoint = {
       ...petpoint,
-      image_url: `http://192.168.0.102:3333/uploads/${petpoint.image}`
+      image_url: `http://192.168.0.2:3333/uploads/${petpoint.image}`
     }
 
     const category = await knex('category')

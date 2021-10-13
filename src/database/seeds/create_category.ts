@@ -5,6 +5,5 @@ export async function seed(knex: Knex) {
     { title: 'Cachorro', image: 'dog.svg' },
     { title: 'Gato', image: 'cat.svg' },
     { title: 'Hamster', image: 'hamster.svg' },
-    { title: 'Pássaro', image: 'parrot.svg' },
   ])
 }
